@@ -1,3 +1,4 @@
+import random
 import pygame
 from settings import *
 
@@ -19,7 +20,9 @@ class Tile:
         self.flagged = flagged
 
     def draw(self, boardSurface):
-        boardSurface.blit(tileUnknown, (self.x, self.y))
+        
+        boardSurface.blit(self.image, (self.x, self.y))
+        # boardSurface.blit(tileUnknown, (self.x, self.y))
 
     def __repr__(self):
         return self.type
@@ -32,6 +35,18 @@ class Board:
             [Tile(col, row, tileEmpty, ".") for row in range(ROWS)]
             for col in range(COLS)
         ]
+        self.placeMines()
+
+    def placeMines(self):
+        for _ in range(AMOUNT_MINES):
+            while True:
+                x = random.randint(0, ROWS - 1)
+                y = random.randint(0, COLS - 1)
+
+                if self.boardList[x][y].type == ".":
+                    self.boardList[x][y].image = tileMine
+                    self.boardList[x][y].type = "X"
+                    break
 
     def draw(self, screen):
         for row in self.boardList:
