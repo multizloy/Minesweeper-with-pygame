@@ -6,8 +6,8 @@ from sprites import *
 class Game:
     def __init__(self) -> None:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption(title)
-        self.clock = pygame.time.Clock * ()
+        pygame.display.set_caption(TITLE)
+        self.clock = pygame.time.Clock()
 
     def new(self):
         pass
