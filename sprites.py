@@ -40,6 +40,7 @@ class Board:
         ]
         self.placeMines()
         self.placeClues()
+        self.dug = []
 
     def placeMines(self):
         for _ in range(AMOUNT_MINES):
@@ -84,6 +85,24 @@ class Board:
             for tile in row:
                 tile.draw(self.boardSurface)
         screen.blit(self.boardSurface, (0, 0))
+
+    def dig(self, x, y):
+        self.dug.append((x, y))
+        if self.boardList[x][y].type == "X":
+            self.boardList[x][y].revealed = True
+            self.boardList[x][y].image = tileExploded
+            return False
+        elif self.boardList[x][y].type == "C":
+            self.boardList[x][y].revealed = True
+            return True
+
+        self.boardList[x][y].revealed = True
+
+        for row in range(max(0, x - 1), min(ROWS - 1, x + 1) + 1):
+            for col in range(max(0, y - 1), min(COLS - 1, y + 1) + 1):
+                if (row, col) not in self.dug:
+                    self.dig(row, col)
+        return True
 
     def displayBoard(self):
         for row in self.boardList:
