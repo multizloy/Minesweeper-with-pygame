@@ -20,7 +20,7 @@ class Tile:
         self.flagged = flagged
 
     def draw(self, boardSurface):
-        
+
         boardSurface.blit(self.image, (self.x, self.y))
         # boardSurface.blit(tileUnknown, (self.x, self.y))
 
@@ -47,6 +47,27 @@ class Board:
                     self.boardList[x][y].image = tileMine
                     self.boardList[x][y].type = "X"
                     break
+
+    def placeClues(self):
+        pass
+
+    @staticmethod
+    def isInside(x, y):
+        return 0 <= x < ROWS and 0 <= y < COLS
+
+    # проверяем соседние кнопки\тайлы\клетки
+    def checkNeighbors(self, x, y):
+        totalMines = 0
+        for xOffset in range(-1, 2):
+            for yOffset in range(-1, 2):
+                xNeighbor = x + xOffset
+                yNeighbor = y + yOffset
+                if (
+                    self.isInside(xNeighbor, yNeighbor)
+                    and self.boardList[xNeighbor][yNeighbor].type == "X"
+                ):
+                    totalMines += 1
+        return totalMines
 
     def draw(self, screen):
         for row in self.boardList:
