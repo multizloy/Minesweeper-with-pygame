@@ -20,9 +20,12 @@ class Tile:
         self.flagged = flagged
 
     def draw(self, boardSurface):
-
-        boardSurface.blit(self.image, (self.x, self.y))
-        # boardSurface.blit(tileUnknown, (self.x, self.y))
+        if not self.flagged and self.revealed:
+            boardSurface.blit(self.image, (self.x, self.y))
+        elif self.flagged and not self.revealed:
+            boardSurface.blit(tileFlag, (self.x, self.y))
+        elif not self.revealed:
+            boardSurface.blit(tileUnknown, (self.x, self.y))
 
     def __repr__(self):
         return self.type
@@ -36,6 +39,7 @@ class Board:
             for col in range(COLS)
         ]
         self.placeMines()
+        self.placeClues()
 
     def placeMines(self):
         for _ in range(AMOUNT_MINES):
@@ -49,7 +53,13 @@ class Board:
                     break
 
     def placeClues(self):
-        pass
+        for x in range(ROWS):
+            for y in range(COLS):
+                if self.boardList[x][y].type != "X":
+                    totalMines = self.checkNeighbors(x, y)
+                    if totalMines > 0:
+                        self.boardList[x][y].image = tileNumber[totalMines - 1]
+                        self.boardList[x][y].type = "C"
 
     @staticmethod
     def isInside(x, y):
