@@ -39,6 +39,7 @@ class Game:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit(0)
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mx, my = pygame.mouse.get_pos()
                 mx //= TILESIZE
@@ -56,7 +57,7 @@ class Game:
                                         tile.revealed = True
                                         tile.image = tileNotMine
                                     elif tile.type == "X":
-                                        tile.revealed == True
+                                        tile.revealed = True
                             self.playing = False
 
                 if event.button == 3:
@@ -64,7 +65,6 @@ class Game:
                         self.board.boardList[mx][my].flagged = not self.board.boardList[
                             mx
                         ][my].flagged
-
                 if self.checkWin():
                     self.win = True
                     self.playing = False
