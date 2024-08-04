@@ -11,7 +11,7 @@ class Game:
 
     def new(self):
         self.board = Board()
-        self.board.displayBoard()
+        # self.board.displayBoard()
 
     def run(self):
         self.playing = True

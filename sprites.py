@@ -104,6 +104,6 @@ class Board:
                     self.dig(row, col)
         return True
 
-    def displayBoard(self):
-        for row in self.boardList:
-            print(row)
+    # def displayBoard(self):
+    #     for row in self.boardList:
+    #         print(row)
